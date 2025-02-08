@@ -2,7 +2,7 @@ import requests
 import json
 import random
 from maps_platform_api import Location, API_KEY, get_geocode_result
-from maps_platform_api import Route
+from maps_platform_api import Route, DistanceMatrix
 
 
 def write_json_output(json_data, filename):
@@ -41,7 +41,7 @@ def test_call_api():
     assert res.status_code == 200
     result = json.loads(res.content)
     assert result["status"] == "OK"
-    write_json_output(result, "address_1.json")
+    write_json_output(result, "output/address_1.json")
 
 
 def test_get_two_locations():
@@ -77,24 +77,29 @@ def test_get_a_route_between_two_locations():
 
 
 def test_make_distance_matrix_from_location_table():
-    locations = mock_location_table()
+    k = 5
+    locations = mock_location_table(count=k)
+    dist_m = DistanceMatrix()
     matrix = {}
     for k1, v1 in locations.items():
         id1, name1, address1 = v1
         for k2, v2 in locations.items():
             id2, name2, address2 = v2
             # dont compute route on same location
-            # if id1 != id2:
             pair = (k1, k2)
-            if k1 != k2:
+            if id1 != id2 and address1 != address2:
                 result1 = get_geocode_result(address1)
                 result2 = get_geocode_result(address2)
-                a = Location(result1)
-                b = Location(result2)
+                a = Location(result1, id=id1, name=name1)
+                b = Location(result2, id=id2, name=name2)
                 r = Route(a, b)
                 with open("output/%s_%s.txt" % (id1, id2), "w") as f:
                     f.write(str(r))
-                matrix[(name1, name2)] = (id1, id2, r)
+                matrix[(id1, id2)] = (name1, name2, r)
+                dist_m.add_path(a, b, r)
     # the matrix
     #  (origin,destination) => route
-    assert False, matrix
+    assert len(matrix) > 1, matrix
+    # write_json_output(matrix, "output/matrix.json")  # error cannot dump tuple
+    df = dist_m.to_dataframe()
+    df.to_csv("output/dist_m.csv")
