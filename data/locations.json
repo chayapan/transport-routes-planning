@@ -1,0 +1,52 @@
+{
+  "1": [
+    1,
+    "Location001",
+    "1 Soi 1 Sukhumvit Bangkok"
+  ],
+  "2": [
+    2,
+    "Location002",
+    "2 Soi 1 Sukhumvit Bangkok"
+  ],
+  "3": [
+    3,
+    "Location003",
+    "3 Soi 10 Payathai Bangkok"
+  ],
+  "4": [
+    4,
+    "Location004",
+    "4 Soi 1 Payathai Bangkok"
+  ],
+  "5": [
+    5,
+    "Location005",
+    "5 Soi 2 Payathai Bangkok"
+  ],
+  "6": [
+    6,
+    "Location006",
+    "6 Soi 3 Sukhumvit Bangkok"
+  ],
+  "7": [
+    7,
+    "Location007",
+    "7 Soi 3 Ramkamhang Bangkok"
+  ],
+  "8": [
+    8,
+    "Location008",
+    "8  Payathai Bangkok"
+  ],
+  "9": [
+    9,
+    "Location009",
+    "9  Ramkamhang Bangkok"
+  ],
+  "10": [
+    10,
+    "Location010",
+    "10 Soi 1 Payathai Bangkok"
+  ]
+}
