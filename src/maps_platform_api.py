@@ -27,6 +27,8 @@ class Location:
     @property
     def formatted_address(self):
         """formatted_address return first of the result"""
+        if not "results" in self._json:
+            return ""
         return self._json["results"][0]["formatted_address"]
 
     def get_latlng(self):
@@ -37,6 +39,8 @@ class Location:
               "lng": 100.5296451
             },
         """
+        if not "results" in self._json:
+            return None, None
         loc = self._json["results"][0]["geometry"]["location"]
         return loc["lat"], loc["lng"]
 
@@ -47,24 +51,28 @@ class Location:
         return cls(result)
 
     def __repr__(self):
-        return "<Location {} ({})/>".format(self.formatted_address, self.get_latlng())
+        return "<Location {}[{}] {} ({})/>".format(
+            self.id, self.name, self.formatted_address, self.get_latlng()
+        )
 
 
 class Route:
-    def __init__(self, a: Location, b: Location):
+    def __init__(self, a: Location = None, b: Location = None):
         """Representation of route from location A to location B.
         Use Route API per https://developers.google.com/maps/documentation/routes/compute_route_directions
         """
         self.origin = a
         self.destination = b
+        self.duration = "0s"
+        self.distanceMeters = "0"
+        self.polyline = ""
+
+    def get_route(self):
         # if origin is the same as destination return None.
         lat1, lng1 = self.origin.get_latlng()
         lat2, lng2 = self.destination.get_latlng()
         if lat1 == lat2 and lng1 == lng2:
             self.route_result = None
-            self.duration = "0s"
-            self.distanceMeters = "0"
-            self.polyline = ""
         else:
             result = self.call_()
             self.route_result = result
@@ -163,18 +171,38 @@ class DistanceMatrix:
                     matrix[(name1, name2)] = (id1, id2, r)
         """
         self._m = {}
-        self.cols = []
         self.rows = []
+
+    @property
+    def locations(self):
+        """Location is the row items. This stores location ID."""
+        loc = []
+        for location in self.rows:
+            if not location in loc:
+                loc.append(location)
+        return loc
 
     def add_path(self, from_loc: Location, to_loc: Location, route: Route = None):
         if not route:
             route = Route(from_loc, to_loc)
         k = (from_loc.id, to_loc.id)
-        self._m[k] = (from_loc.name, to_loc.name, route)
-        if not from_loc in self.rows:
-            self.rows.append(from_loc)
-        if not to_loc in self.cols:
-            self.cols.append(to_loc)
+        self._m[k] = (from_loc, to_loc, route)  # locA, locB, routeAB
+        if from_loc.id not in self.rows:
+            self.rows.append(from_loc.id)
+
+    def print_matrix(self):
+        headers = "  " + " ".join(map(str, self.locations))
+        rows = "\n"
+        for r in self.locations:
+            rows += "{}".format(r)
+            for i in self.locations:
+                if (i, r) in self._m.keys():
+                    e = "d{}{} ".format(i, r)
+                else:
+                    e = ""
+            rows += e + "\n"
+        print(headers + rows)
+        return True
 
     def to_dataframe(self):
         # TODO...

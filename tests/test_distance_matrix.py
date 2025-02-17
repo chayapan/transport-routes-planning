@@ -15,13 +15,21 @@ def mock_location_table(count=10):
     locations = {}
     get_soi = lambda: random.choice(["", "Soi 1", "Soi %s" % random.randint(1, count)])
     get_road = lambda: random.choice(["Payathai", "Ramkamhang", "Sukhumvit"])
-    for i in range(1, count):
+    for i in range(1, count + 1):
         locations[i] = (i, locname % i, "%s %s %s Bangkok" % (i, get_soi(), get_road()))
     return locations
 
 
+def test_save_datafile():
+    locations = mock_location_table(count=10)
+    write_json_output(locations, "data/locations.json")
+    assert len(locations) == 10
+
+
 def test_load_datafile():
-    return False
+    with open("data/locations.json") as f:
+        data = json.loads(f.read())
+    assert len(data) == 10
 
 
 def test_generate_mock_location_table():
@@ -72,6 +80,7 @@ def test_get_a_route_between_two_locations():
     location1 = Location(result1)
     location2 = Location(result2)
     route = Route(location1, location2)
+    route.get_route()
     assert route.route_result, route.route_result
     assert isinstance(route, Route), route
 
@@ -93,6 +102,7 @@ def test_make_distance_matrix_from_location_table():
                 a = Location(result1, id=id1, name=name1)
                 b = Location(result2, id=id2, name=name2)
                 r = Route(a, b)
+                r.get_route()
                 with open("output/%s_%s.txt" % (id1, id2), "w") as f:
                     f.write(str(r))
                 matrix[(id1, id2)] = (name1, name2, r)
