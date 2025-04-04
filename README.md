@@ -1,9 +1,11 @@
 # transport-routes-planning
 
+![store-locations](docs/store-locations.png)
+
 - location table
 - distance matrix
 - plot nodes (location marker) on a map with GeoJSON/Leaflet
-- TODO: produce GeoJSON for plotting
+- produce GeoJSON for plotting
 - TODO: calculate linehaul for 30 locations and put in DistanceMatrix
 
 Features and FeatureCollections  
