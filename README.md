@@ -28,3 +28,14 @@ python3 cli.py locations --files=../data/locations.json
 ### run
 
 python3 cli.py run
+
+
+# GIS Service
+
+geoserver
+postgresql
+mongodb
+
+```cd gis-service
+docker-compose up
+```

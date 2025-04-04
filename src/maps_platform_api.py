@@ -209,6 +209,29 @@ class LocationTable:
             # print(lat, lng, store_no, store_name, addr, loc)
             self._data[store_no] = loc
 
+    def to_geojson(self, as_dict=False):
+        # _data k->v
+        geojson = {"type": "FeatureCollection", "features": []}
+        for k, v in self._data.items():
+            store_no = k
+            loc = v
+            lat, lng = loc.get_latlng()
+            feature = {
+                "type": "Feature",
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [lng, lat],
+                },
+                "properties": {},
+            }
+            feature["properties"]["name"] = loc.name
+            feature["properties"]["store_no"] = store_no
+            geojson["features"].append(feature)
+        if as_dict:
+            return geojson
+        else:
+            return json.dumps(geojson)
+
 
 class DistanceMatrix:
     def __init__(self):

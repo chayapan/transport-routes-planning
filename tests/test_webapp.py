@@ -36,5 +36,22 @@ def test_getlatlng_from_location_address():
 
 
 def test_locationtable_obj():
-    lt = LocationTable()
-    assert len(lt._data) > 0, "initialized LocationTable instance from CSV"
+    l = LocationTable()
+    assert len(l._data) > 0, "initialized LocationTable instance from CSV"
+
+
+def test_locationtable_to_geojson():
+    l = LocationTable()
+    geojson_data = l.to_geojson()
+    dict_data = l.to_geojson(as_dict=True)
+    # print(dict_data)
+    # print(geojson_data)
+    assert geojson_data.startswith("""{"type": "FeatureCollection", "features": ["""), (
+        "GeoJSON not as expected: " + geojson_data
+    )
+    assert (
+        len(dict_data["features"]) > 1 and dict_data["type"] == "FeatureCollection"
+    ), "GeoJSON obj dict = " + str(dict_data)
+    outfile = "webapp/locations.geojson"
+    with open(outfile, "w") as f:
+        f.write(geojson_data)
