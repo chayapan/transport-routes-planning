@@ -1,0 +1,40 @@
+{
+    "type": "Feature",
+    "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+            [
+                [
+                    96,
+                    8
+                ],
+                [
+                    102,
+                    8
+                ],
+                [
+                    102,
+                    0
+                ],
+                [
+                    96,
+                    0
+                ]
+            ]
+        ]
+    },
+    "properties": {
+        "type": "UTMZone",
+        "zone": "47N",
+        "neighbors": {
+            "N": "47P",
+            "E": "48N",
+            "S": "47M",
+            "W": "46N",
+            "NE": "48P",
+            "NW": "46P",
+            "SE": "48M",
+            "SW": "46M"
+        }
+    }
+}

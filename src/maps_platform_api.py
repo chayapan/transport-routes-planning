@@ -199,6 +199,7 @@ class LocationTable:
         df = pd.read_csv(f, index_col="LocationID", names=self.columns, header=0)
         self._data = {}
         for row in df.iterrows():
+            # print(lat, lng, store_no, store_name, addr, loc)
             store_no = row[1]["Store No"]
             store_name = row[1]["Store Name"]
             addr = row[1]["Address"]
@@ -206,8 +207,17 @@ class LocationTable:
             lat, lng = loc.get_latlng()
             loc.name = store_name
             loc.id = store_no
-            # print(lat, lng, store_no, store_name, addr, loc)
             self._data[store_no] = loc
+
+    def to_html(self):
+        """Read CSV and print table to HTML for webapp."""
+        for store_no, loc in self._data.items():
+
+            lat, lng = loc.get_latlng()
+        df = pd.DataFrame(data, columns=self.columns + ["lat", "lng"])
+        with open("webapp/location_table.html", "w") as f:
+            f.write(df.to_html())
+        return True
 
     def to_geojson(self, as_dict=False):
         # _data k->v
@@ -226,6 +236,7 @@ class LocationTable:
             }
             feature["properties"]["name"] = loc.name
             feature["properties"]["store_no"] = store_no
+            feature["properties"]["address"] = loc.addr
             geojson["features"].append(feature)
         if as_dict:
             return geojson
