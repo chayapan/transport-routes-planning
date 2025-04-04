@@ -1,0 +1,29 @@
+{
+  "name": "nida_vrp_opt",
+  "version": "1.0.0",
+  "description": "LSCM6003 class project",
+  "main": "src/index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "start": "live-server .",
+    "test": "pytest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chayapan/transport-routes-planning.git"
+  },
+  "keywords": [
+    "logistics",
+    "transportation",
+    "linear",
+    "programming"
+  ],
+  "author": "Chayapan K.",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/chayapan/transport-routes-planning/issues"
+  },
+  "homepage": "https://github.com/chayapan/transport-routes-planning#readme"
+}

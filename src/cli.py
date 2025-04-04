@@ -1,4 +1,5 @@
 import argparse
+from maps_platform_api import pd  # pandas
 from maps_platform_api import DistanceMatrix, Location, json
 
 parser = argparse.ArgumentParser()

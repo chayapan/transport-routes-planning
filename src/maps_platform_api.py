@@ -162,6 +162,53 @@ class Route:
         )
 
 
+def print_location_table(f="data/location_table.csv"):
+    """Read CSV and print table to HTML for webapp."""
+    columns = [
+        "LocationID",
+        "Province",
+        "RowID",
+        "Store No",
+        "Store Name",
+        "Format Group",
+        "Address",
+        "Remark1",
+        "Remark2",
+    ]
+    df = pd.read_csv(f, index_col="LocationID", names=columns, header=0)
+    with open("webapp/location_table.html", "w") as f:
+        f.write(df.to_html())
+    return df
+
+
+class LocationTable:
+    def __init__(self, f="data/location_table.csv"):
+        columns = [
+            "LocationID",
+            "Province",
+            "RowID",
+            "Store No",
+            "Store Name",
+            "Format Group",
+            "Address",
+            "Remark1",
+            "Remark2",
+        ]
+        # load data and fetch lat/lng
+        df = pd.read_csv(f, index_col="LocationID", names=columns, header=0)
+        self._data = {}
+        for row in df.iterrows():
+            store_no = row[1]["Store No"]
+            store_name = row[1]["Store Name"]
+            addr = row[1]["Address"]
+            loc = Location.from_address(addr)
+            lat, lng = loc.get_latlng()
+            loc.name = store_name
+            loc.id = store_no
+            # print(lat, lng, store_no, store_name, addr, loc)
+            self._data[store_no] = loc
+
+
 class DistanceMatrix:
     def __init__(self):
         """
