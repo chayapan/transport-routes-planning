@@ -114,5 +114,5 @@ def test_make_distance_matrix_from_location_table():
     assert len(matrix) > 1, matrix
     # write_json_output(matrix, "output/matrix.json")  # error cannot dump tuple
     df = dist_m.to_dataframe()
-    df.set_index("") ****
+    # df.set_index("") ****
     df.to_csv("output/dist_m.csv")

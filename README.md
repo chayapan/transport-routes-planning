@@ -2,15 +2,11 @@
 
 ![store-locations](docs/store-locations.png)
 
-- location table
+- location table 1. [Map](webapp/locations.html) 2. [Table](webapp/location_table.html)
+  - plot nodes (location marker) on a map with GeoJSON/Leaflet
+  - produce GeoJSON for plotting
 - distance matrix
-- plot nodes (location marker) on a map with GeoJSON/Leaflet
-- produce GeoJSON for plotting
 - TODO: calculate linehaul for 30 locations and put in DistanceMatrix
-
-Features and FeatureCollections  
-https://leafletjs.com/examples/geojson/  
-https://tools.ietf.org/html/rfc7946#section-3.3
 
 
 ```
@@ -34,10 +30,11 @@ python3 cli.py run
 
 # GIS Service
 
-geoserver
-postgresql
-mongodb
+* geoserver
+* postgresql/postgis
+* mongodb
 
-```cd gis-service
+```
+cd gis-service  
 docker-compose up
 ```
