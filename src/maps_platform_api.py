@@ -2,7 +2,7 @@ import requests
 import json
 import pandas as pd
 
-API_KEY = "AIzaSyBTt6fQaix-5G7_1-c3aBt1EiJ2zp03kbw"
+API_KEY = "AIzaSyDdivbhTOrcRtaV-s6YPPg1XiY81NGQOS0"
 
 
 def get_geocode_result(address):
@@ -222,9 +222,8 @@ class LocationTable:
     def to_geojson(self, as_dict=False):
         # _data k->v
         geojson = {"type": "FeatureCollection", "features": []}
-        for k, v in self._data.items():
+        for k, loc in self._data.items():
             store_no = k
-            loc = v
             lat, lng = loc.get_latlng()
             feature = {
                 "type": "Feature",
@@ -241,7 +240,7 @@ class LocationTable:
         if as_dict:
             return geojson
         else:
-            return json.dumps(geojson)
+            return json.dumps(geojson, indent=4)
 
 
 class DistanceMatrix:
