@@ -13,8 +13,10 @@ def write_json_output(json_data, filename):
 def mock_location_table(count=10):
     locname = "Location%03d"
     locations = {}
-    get_soi = lambda: random.choice(["", "Soi 1", "Soi %s" % random.randint(1, count)])
-    get_road = lambda: random.choice(["Payathai", "Ramkamhang", "Sukhumvit"])
+    get_soi = lambda: random.choice(["", "", "Soi %s" % random.randint(1, count)])
+    get_road = lambda: random.choice(
+        ["Payathai", "Ramkamhang", "Sukhumvit", "Rama 4", "Phetkasem"]
+    )
     for i in range(1, count + 1):
         locations[i] = (i, locname % i, "%s %s %s Bangkok" % (i, get_soi(), get_road()))
     return locations
@@ -86,8 +88,8 @@ def test_get_a_route_between_two_locations():
 
 
 def test_make_distance_matrix_from_location_table():
-    k = 5
-    locations = mock_location_table(count=k)
+    N = 5  # 5,30,50,500
+    locations = mock_location_table(count=N)
     dist_m = DistanceMatrix()
     matrix = {}
     for k1, v1 in locations.items():
@@ -112,4 +114,5 @@ def test_make_distance_matrix_from_location_table():
     assert len(matrix) > 1, matrix
     # write_json_output(matrix, "output/matrix.json")  # error cannot dump tuple
     df = dist_m.to_dataframe()
+    df.set_index("") ****
     df.to_csv("output/dist_m.csv")

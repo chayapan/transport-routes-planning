@@ -170,7 +170,7 @@ def print_location_table(f="data/location_table.csv"):
         "RowID",
         "Store No",
         "Store Name",
-        "Format Group",
+        "Store Type",
         "Address",
         "Remark1",
         "Remark2",
@@ -182,20 +182,21 @@ def print_location_table(f="data/location_table.csv"):
 
 
 class LocationTable:
+    columns = [
+        "LocationID",
+        "Province",
+        "RowID",
+        "Store No",
+        "Store Name",
+        "Store Type",
+        "Address",
+        "Remark1",
+        "Remark2",
+    ]
+
     def __init__(self, f="data/location_table.csv"):
-        columns = [
-            "LocationID",
-            "Province",
-            "RowID",
-            "Store No",
-            "Store Name",
-            "Format Group",
-            "Address",
-            "Remark1",
-            "Remark2",
-        ]
         # load data and fetch lat/lng
-        df = pd.read_csv(f, index_col="LocationID", names=columns, header=0)
+        df = pd.read_csv(f, index_col="LocationID", names=self.columns, header=0)
         self._data = {}
         for row in df.iterrows():
             store_no = row[1]["Store No"]

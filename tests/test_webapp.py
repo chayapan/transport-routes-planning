@@ -18,7 +18,7 @@ def test_getlatlng_from_location_address():
         "RowID",
         "Store No",
         "Store Name",
-        "Format Group",
+        "Store Type",
         "Address",
         "Remark1",
         "Remark2",
