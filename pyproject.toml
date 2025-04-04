@@ -1,6 +1,6 @@
 
 [tool.pytest.ini_options]
-# pytest --junit-xml=report.xml
+# pytest --junit-xml=data/test_report.xml
 
 addopts = [
     "--import-mode=importlib",
